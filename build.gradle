@@ -1,0 +1,19 @@
+plugins {
+    id 'groovy'
+}
+
+group 'de.dfki.mary'
+version '5.2-SNAPSHOT'
+
+repositories {
+    maven {
+        url 'https://oss.jfrog.org/artifactory/repo'
+    }
+}
+
+dependencies {
+    compile group: 'de.dfki.mary', name: 'marytts-common', version: version
+    compile group: 'de.dfki.mary', name: 'marytts-runtime', version: version
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.10'
+    testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
+}
