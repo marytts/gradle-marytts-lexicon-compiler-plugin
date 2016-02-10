@@ -53,3 +53,7 @@ task trainLTS {
     }
     processResources.dependsOn it
 }
+
+test {
+    useTestNG()
+}
