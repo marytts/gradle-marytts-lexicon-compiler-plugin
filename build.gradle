@@ -30,6 +30,8 @@ dependencies {
     testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
 }
 
+targetCompatibility = 1.7
+
 task trainLTS {
     inputs.files processLexiconResources
     def destDir = "$sourceSets.lexicon.output.resourcesDir/marytts/language/xy"
