@@ -11,9 +11,43 @@ repositories {
     }
 }
 
+sourceSets {
+    lexicon
+}
+
+configurations {
+    lexicon
+}
+
 dependencies {
     compile group: 'de.dfki.mary', name: 'marytts-common', version: version
     compile group: 'de.dfki.mary', name: 'marytts-runtime', version: version
+    lexicon(group: 'de.dfki.mary', name: 'marytts-transcription', version: version) {
+        exclude module: 'sgt'
+        exclude module: 'mwdumper'
+    }
     testCompile group: 'org.testng', name: 'testng', version: '6.9.10'
     testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
+}
+
+task trainLTS {
+    inputs.files processLexiconResources
+    def destDir = "$sourceSets.lexicon.output.resourcesDir/marytts/language/xy"
+    def allophoneSetFile = file("$destDir/allophones.xy.xml")
+    def transcriptionFile = file("$destDir/xy.txt")
+    outputs.files "$destDir/xy.lts", "$destDir/xy_lexicon.fst"
+    doLast {
+        javaexec {
+            classpath configurations.lexicon
+            main 'marytts.tools.transcription.LTSLexiconPOSBuilder'
+            args allophoneSetFile, transcriptionFile
+            workingDir sourceSets.lexicon.output.resourcesDir
+        }
+        copy {
+            from outputs.files
+            into sourceSets.main.output.resourcesDir
+            rename { "marytts/language/xy/$it" }
+        }
+    }
+    processResources.dependsOn it
 }
