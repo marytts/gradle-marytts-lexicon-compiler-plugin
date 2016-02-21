@@ -70,7 +70,7 @@ publishing {
                 classifier 'sources'
             }
             pom.withXml {
-                asNode().appendNode('licenses').appendNode('license').appendNode('name', 'GNU Lesser General Public License v3.0')
+                asNode().appendNode('licenses').appendNode('license').appendNode('name', 'LGPL-3.0')
             }
         }
     }
