@@ -74,8 +74,12 @@ artifactory {
     contextUrl = 'https://oss.jfrog.org/artifactory'
     publish {
         repository {
+            repoKey = 'oss-snapshot-local'
             username = System.getenv('BINTRAY_USER')
             password = System.getenv('BINTRAY_KEY')
+        }
+        defaults {
+            publications 'mavenJava'
         }
     }
 }
