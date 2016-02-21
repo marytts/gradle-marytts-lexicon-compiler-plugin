@@ -57,6 +57,9 @@ test {
 
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
+    from(projectDir) {
+        include 'LICENSE.md'
+    }
 }
 
 publishing {
