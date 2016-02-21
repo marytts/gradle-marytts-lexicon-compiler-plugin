@@ -32,26 +32,19 @@ dependencies {
 
 targetCompatibility = 1.7
 
-task trainLTS {
+task trainLTS(type: JavaExec) {
     inputs.files processLexiconResources
-    def destDir = "$sourceSets.lexicon.output.resourcesDir/marytts/language/xy"
-    def allophoneSetFile = file("$destDir/allophones.xy.xml")
-    def transcriptionFile = file("$destDir/xy.txt")
-    outputs.files "$destDir/xy.lts", "$destDir/xy_lexicon.fst"
-    doLast {
-        javaexec {
-            classpath configurations.lexicon
-            main 'marytts.tools.transcription.LTSLexiconPOSBuilder'
-            args allophoneSetFile, transcriptionFile
-            workingDir sourceSets.lexicon.output.resourcesDir
-        }
-        copy {
-            from outputs.files
-            into sourceSets.main.output.resourcesDir
-            rename { "marytts/language/xy/$it" }
-        }
+    classpath configurations.lexicon
+    main 'marytts.tools.transcription.LTSLexiconPOSBuilder'
+    workingDir sourceSets.lexicon.output.resourcesDir
+    args "$workingDir/allophones.xy.xml", "$workingDir/xy.txt"
+    outputs.files "$workingDir/allophones.xy.xml", "$workingDir/xy.lts", "$workingDir/xy_lexicon.fst"
+}
+
+processResources {
+    from(trainLTS) {
+        rename { "marytts/language/xy/lexicon/$it" }
     }
-    processResources.dependsOn it
 }
 
 test {
