@@ -1,6 +1,9 @@
 package marytts.language.xy
 
 import marytts.LocalMaryInterface
+import marytts.exceptions.SynthesisException
+
+import static marytts.datatypes.MaryDataType.*
 
 import org.testng.annotations.*
 
@@ -19,6 +22,14 @@ class XydonianConfigTest {
         def mary = new LocalMaryInterface()
         mary.locale = XYDONIAN
         assert mary.locale == XYDONIAN
+    }
+
+    @Test(expectedExceptions = SynthesisException)
+    void canProcessTextToPhonemes() {
+        def mary = new LocalMaryInterface()
+        mary.locale = XYDONIAN
+        mary.outputType = PHONEMES
+        assert mary.generateXML('xy')
     }
 
 }
