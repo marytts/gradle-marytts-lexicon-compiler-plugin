@@ -69,6 +69,9 @@ publishing {
             artifact sourceJar {
                 classifier 'sources'
             }
+            pom.withXml {
+                asNode().appendNode('licenses').appendNode('license').appendNode('name', 'GNU Lesser General Public License v3.0')
+            }
         }
     }
 }
