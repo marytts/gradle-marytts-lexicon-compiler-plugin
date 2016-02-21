@@ -1,7 +1,6 @@
 package marytts.language.xy
 
 import marytts.LocalMaryInterface
-import marytts.exceptions.SynthesisException
 
 import static marytts.datatypes.MaryDataType.*
 
@@ -24,7 +23,7 @@ class XydonianConfigTest {
         assert mary.locale == XYDONIAN
     }
 
-    @Test(expectedExceptions = SynthesisException)
+    @Test
     void canProcessTextToPhonemes() {
         def mary = new LocalMaryInterface()
         mary.locale = XYDONIAN
