@@ -46,9 +46,9 @@ task trainLTS {
             workingDir sourceSets.lexicon.output.resourcesDir
         }
         copy {
-            from outputs.files
+            from outputs.files, allophoneSetFile
             into sourceSets.main.output.resourcesDir
-            rename { "marytts/language/xy/$it" }
+            rename { "marytts/language/xy/lexicon/$it" }
         }
     }
     processResources.dependsOn it
