@@ -1,5 +1,7 @@
 plugins {
     id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.artifactory" version "4.0.0"
 }
 
 group 'de.dfki.mary'
@@ -30,6 +32,7 @@ dependencies {
     testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
 }
 
+sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 task trainLTS(type: JavaExec) {
@@ -50,4 +53,39 @@ processResources {
 test {
     useTestNG()
     workingDir buildDir
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    from(projectDir) {
+        include 'LICENSE.md'
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            pom.withXml {
+                asNode().appendNode('licenses').appendNode('license').appendNode('name', 'LGPL-3.0')
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'https://oss.jfrog.org/artifactory'
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = System.getenv('BINTRAY_USER')
+            password = System.getenv('BINTRAY_KEY')
+        }
+        defaults {
+            publications 'mavenJava'
+        }
+    }
 }
