@@ -5,7 +5,12 @@ Lexicon compiler plugin for MaryTTS
 ------------
 
 ### Added
+
 - Documentation
+
+### Changed
+
+- Add configurable delimiter for lexicon source
 
 [v0.1.0] - 2017-02-21
 ---------------------
