@@ -15,7 +15,9 @@ class LexiconCompile extends DefaultTask {
     @InputFile
     File lexiconFile = project.file("modules/$project.locale/lexicon/${project.locale}.txt")
 
-    @Optional
+    @Input
+    String delimiter = '\\s+'
+
     @Input
     Map<String, String> phoneMapping = [:]
 
@@ -36,7 +38,7 @@ class LexiconCompile extends DefaultTask {
         // read transcriptions
         def lexicon = [:]
         lexiconFile.eachLine('UTF-8') { line ->
-            def fields = line.trim().split('\\s+')
+            def fields = line.trim().split(delimiter)
             if (fields.first().startsWith('#')) {
                 // a comment
             } else if (fields.size() == 1) {
