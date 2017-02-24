@@ -7,8 +7,8 @@ Lexicon compiler plugin for MaryTTS
 ### Added
 - Documentation
 
-[v0.1.0]
---------
+[v0.1.0] - 2017-02-21
+---------------------
 
 ### Initial release
 
