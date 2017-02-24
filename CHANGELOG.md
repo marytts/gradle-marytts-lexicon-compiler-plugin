@@ -4,6 +4,9 @@ Lexicon compiler plugin for MaryTTS
 [Unreleased]
 ------------
 
+[v0.1.1] - 2017-02-24
+---------------------
+
 ### Added
 
 - Documentation
@@ -17,5 +20,6 @@ Lexicon compiler plugin for MaryTTS
 
 ### Initial release
 
-[Unreleased]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.1.1...HEAD
+[v0.1.1]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.1.0...v0.1.1
 [v0.1.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/tree/v0.1.0
