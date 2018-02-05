@@ -4,6 +4,10 @@ Lexicon compiler plugin for MaryTTS
 [Unreleased]
 ------------
 
+### Changed
+
+- Build with Gradle v4.5
+
 [v0.1.1] - 2017-02-24
 ---------------------
 
