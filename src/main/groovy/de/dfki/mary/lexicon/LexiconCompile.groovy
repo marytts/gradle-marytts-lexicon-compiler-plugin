@@ -53,6 +53,11 @@ class LexiconCompile extends DefaultTask {
                     // store valid transcription
                     lexicon[lemma] = transcription
                 } else {
+                    try {
+                        allophoneSet.splitIntoAllophoneList(transcription, false)
+                    } catch (all) {
+                        project.logger.info all.message
+                    }
                     project.logger.warn "Invalid transcription for '$lemma': [$transcription]"
                 }
             }

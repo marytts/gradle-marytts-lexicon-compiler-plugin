@@ -7,6 +7,7 @@ Lexicon compiler plugin for MaryTTS
 ### Changed
 
 - Build with Gradle v4.5
+- More verbose logging of transcription problems
 
 [v0.1.1] - 2017-02-24
 ---------------------
