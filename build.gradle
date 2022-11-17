@@ -1,17 +1,25 @@
 plugins {
-    id 'groovy-gradle-plugin'
-    id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.9.9'
+    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'groovy'
 }
 
 group 'de.dfki.mary'
 version '0.2.0-SNAPSHOT'
+ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
+
+pluginBundle {
+    website = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+    vcsUrl = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+    description = 'Lexicon compiler plugin for MaryTTS (incubating)'
+    tags = ['text-to-speech', 'synthesis']
+}
 
 gradlePlugin {
     plugins {
         lexiconCompilerPlugin {
             id = 'de.dfki.mary.lexicon-compiler'
             implementationClass = 'de.dfki.mary.lexicon.LexiconPlugin'
+            displayName = 'Gradle MaryTTS lexicon compiler plugin'
         }
     }
 }
@@ -61,35 +69,12 @@ test {
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
     repositories {
         maven {
-            url "$rootProject.buildDir/repo"
-        }
-        maven {
-            url version.endsWith('-SNAPSHOT') ? 'https://oss.jfrog.org/artifactory/oss-snapshot-local' : 'https://api.bintray.com/maven/marytts/marytts/marytts'
-            credentials {
-                username = findProperty('bintrayUser')
-                password = findProperty('bintrayApiKey')
-            }
-        }
-    }
-}
-
-pluginBundle {
-    website = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
-    vcsUrl = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
-    description = 'Lexicon compiler plugin for MaryTTS (incubating)'
-    tags = ['text-to-speech', 'synthesis']
-
-    plugins {
-        lexiconCompilerPlugin {
-            id = 'de.dfki.mary.lexicon-compiler'
-            displayName = 'Gradle MaryTTS lexicon compiler plugin'
+            name 'OSSRH'
+            url isReleaseVersion ? 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    : 'https://oss.sonatype.org/content/repositories/snapshots'
+            credentials(PasswordCredentials)
         }
     }
 }

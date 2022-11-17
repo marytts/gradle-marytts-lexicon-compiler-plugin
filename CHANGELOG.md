@@ -18,6 +18,7 @@ Lexicon compiler plugin for MaryTTS
 - Build with Gradle v7.5.1
 - More verbose logging of transcription problems
 - Upgraded MaryTTS to v5.2.1
+- Migrated publishing from OJO to OSSRH
 - [all changes since v0.1.1]
 
 [v0.1.1] - 2017-02-24
