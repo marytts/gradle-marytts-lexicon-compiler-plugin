@@ -48,12 +48,6 @@ dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '7.5'
 }
 
-processTestResources {
-    from 'marytts-lang-xy/src/lexicon/resources', {
-        rename { "de/dfki/mary/lexicon/$it" }
-    }
-}
-
 test {
     useTestNG()
     systemProperty 'java.io.tmpdir', temporaryDir
