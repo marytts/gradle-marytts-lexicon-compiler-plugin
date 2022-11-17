@@ -1,3 +1,5 @@
+[![CI](https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/actions/workflows/main.yml/badge.svg)](https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/actions/workflows/main.yml)
+
 Lexicon compiler plugin for MaryTTS
 ===================================
 (incubating)
