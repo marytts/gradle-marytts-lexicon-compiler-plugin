@@ -7,6 +7,20 @@ plugins {
 group 'de.dfki.mary'
 version '0.2.0-SNAPSHOT'
 
+pluginBundle {
+    website = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+    vcsUrl = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+    description = 'Lexicon compiler plugin for MaryTTS (incubating)'
+    tags = ['text-to-speech', 'synthesis']
+
+    plugins {
+        lexiconCompilerPlugin {
+            id = 'de.dfki.mary.lexicon-compiler'
+            displayName = 'Gradle MaryTTS lexicon compiler plugin'
+        }
+    }
+}
+
 gradlePlugin {
     plugins {
         lexiconCompilerPlugin {
@@ -76,20 +90,6 @@ publishing {
                 username = findProperty('bintrayUser')
                 password = findProperty('bintrayApiKey')
             }
-        }
-    }
-}
-
-pluginBundle {
-    website = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
-    vcsUrl = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
-    description = 'Lexicon compiler plugin for MaryTTS (incubating)'
-    tags = ['text-to-speech', 'synthesis']
-
-    plugins {
-        lexiconCompilerPlugin {
-            id = 'de.dfki.mary.lexicon-compiler'
-            displayName = 'Gradle MaryTTS lexicon compiler plugin'
         }
     }
 }
