@@ -1,7 +1,6 @@
 plugins {
-    id 'groovy-gradle-plugin'
-    id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.21.0'
+    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'groovy'
 }
 
 group 'de.dfki.mary'
@@ -12,13 +11,6 @@ pluginBundle {
     vcsUrl = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
     description = 'Lexicon compiler plugin for MaryTTS (incubating)'
     tags = ['text-to-speech', 'synthesis']
-
-    plugins {
-        lexiconCompilerPlugin {
-            id = 'de.dfki.mary.lexicon-compiler'
-            displayName = 'Gradle MaryTTS lexicon compiler plugin'
-        }
-    }
 }
 
 gradlePlugin {
@@ -26,6 +18,7 @@ gradlePlugin {
         lexiconCompilerPlugin {
             id = 'de.dfki.mary.lexicon-compiler'
             implementationClass = 'de.dfki.mary.lexicon.LexiconPlugin'
+            displayName = 'Gradle MaryTTS lexicon compiler plugin'
         }
     }
 }
@@ -75,11 +68,6 @@ test {
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
     repositories {
         maven {
             url "$rootProject.buildDir/repo"
