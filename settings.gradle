@@ -1,1 +1,2 @@
 rootProject.name = 'gradle-marytts-lexicon-compiler-plugin'
+enableFeaturePreview('STABLE_PUBLISHING')
