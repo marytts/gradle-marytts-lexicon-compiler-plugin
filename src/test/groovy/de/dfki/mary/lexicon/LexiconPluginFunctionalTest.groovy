@@ -36,8 +36,8 @@ class LexiconPluginFunctionalTest {
         [
                 ['help', false],
                 ['testPlugin', false],
-                ['compileLexicon', false],
-                ['testLexicon', false]
+                ['compileLexicon', true],
+                ['testLexicon', true]
         ]
     }
 

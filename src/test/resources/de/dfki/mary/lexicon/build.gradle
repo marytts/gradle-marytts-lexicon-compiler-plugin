@@ -12,3 +12,19 @@ compileLexicon {
     allophonesFile = file('allophones.xy.xml')
     lexiconFile = file('xy.txt')
 }
+
+task testCompileLexicon {
+    dependsOn compileLexicon
+    doLast {
+        assert compileLexicon.ltsFile.exists()
+        assert compileLexicon.fstFile.exists()
+        assert compileLexicon.sampaLexiconFile.exists()
+    }
+}
+
+task testTestLexicon {
+    dependsOn testLexicon
+    doLast {
+        assert testLexicon.reportFile.exists()
+    }
+}
