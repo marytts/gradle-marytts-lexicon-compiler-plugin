@@ -33,12 +33,12 @@ repositories {
 }
 
 dependencies {
-    compile group: 'de.dfki.mary', name: 'marytts-runtime', version: '5.2.1', {
+    implementation group: 'de.dfki.mary', name: 'marytts-runtime', version: '5.2.1', {
         exclude group: '*', module: 'groovy-all'
         exclude group: 'com.twmacinta', module: 'fast-md5'
         exclude group: 'gov.nist.math', module: 'Jampack'
     }
-    compile group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
+    implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
 }
 
 task sourceJar(type: Jar) {
