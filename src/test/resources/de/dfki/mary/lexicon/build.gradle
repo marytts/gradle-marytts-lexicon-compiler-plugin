@@ -1,0 +1,46 @@
+plugins {
+    id 'de.dfki.mary.lexicon-compiler'
+}
+
+task testPlugin {
+    doLast {
+        assert pluginManager.hasPlugin('de.dfki.mary.lexicon-compiler')
+    }
+}
+
+compileLexicon {
+    allophonesFile = file('allophones.xy.xml')
+    lexiconFile = file('xy.txt')
+}
+
+task testCompileLexicon {
+    dependsOn compileLexicon
+    doLast {
+        assert compileLexicon.ltsFile.exists()
+        assert compileLexicon.fstFile.exists()
+        assert compileLexicon.sampaLexiconFile.exists()
+    }
+}
+
+task testTestLexicon {
+    dependsOn testLexicon
+    doLast {
+        assert testLexicon.reportFile.exists()
+    }
+}
+
+task testProcessResources {
+    dependsOn processResources
+    doLast {
+        def resourceNames = [
+                'allophones.xy.xml',
+                'xy.lts',
+                'xy_lexicon.fst'
+        ]
+        resourceNames.each { resourceName ->
+            def resourceFile = new File(project.sourceSets.main.output.resourcesDir,
+                    "marytts/language/$project.locale/lexicon/$resourceName")
+            assert resourceFile.exists()
+        }
+    }
+}

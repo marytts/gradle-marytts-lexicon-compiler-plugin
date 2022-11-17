@@ -45,6 +45,19 @@ dependencies {
         exclude group: 'gov.nist.math', module: 'Jampack'
     }
     implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
+    testImplementation group: 'org.testng', name: 'testng', version: '7.5'
+}
+
+test {
+    useTestNG()
+    systemProperty 'java.io.tmpdir', temporaryDir
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        exceptionFormat = 'full'
+        info {
+            showStandardStreams = true
+        }
+    }
 }
 
 publishing {

@@ -7,6 +7,7 @@ Lexicon compiler plugin for MaryTTS
 ### Added
 
 - CI via GitHub Actions
+- Testing on Java 8, 11, 17
 
 ### Removed
 
