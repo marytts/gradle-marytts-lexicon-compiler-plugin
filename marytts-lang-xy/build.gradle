@@ -1,0 +1,91 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+    id "com.jfrog.artifactory" version "4.0.0"
+}
+
+group 'de.dfki.mary'
+version '5.2-SNAPSHOT'
+
+repositories {
+    maven {
+        url 'https://oss.jfrog.org/artifactory/repo'
+    }
+}
+
+sourceSets {
+    lexicon
+}
+
+configurations {
+    lexicon
+}
+
+dependencies {
+    compile group: 'de.dfki.mary', name: 'marytts-common', version: version
+    compile group: 'de.dfki.mary', name: 'marytts-runtime', version: version
+    lexicon(group: 'de.dfki.mary', name: 'marytts-transcription', version: version) {
+        exclude module: 'sgt'
+        exclude module: 'mwdumper'
+    }
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.10'
+    testCompile group: 'xmlunit', name: 'xmlunit', version: '1.6'
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+task trainLTS(type: JavaExec) {
+    inputs.files processLexiconResources
+    classpath configurations.lexicon
+    main 'marytts.tools.transcription.LTSLexiconPOSBuilder'
+    workingDir sourceSets.lexicon.output.resourcesDir
+    args "$workingDir/allophones.xy.xml", "$workingDir/xy.txt"
+    outputs.files "$workingDir/allophones.xy.xml", "$workingDir/xy.lts", "$workingDir/xy_lexicon.fst"
+}
+
+processResources {
+    from(trainLTS) {
+        rename { "marytts/language/xy/lexicon/$it" }
+    }
+}
+
+test {
+    useTestNG()
+    workingDir buildDir
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    from(projectDir) {
+        include 'LICENSE.md'
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            pom.withXml {
+                asNode().appendNode('licenses').appendNode('license').appendNode('name', 'LGPL-3.0')
+            }
+        }
+    }
+}
+
+artifactory {
+    contextUrl = 'https://oss.jfrog.org/artifactory'
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = System.getenv('BINTRAY_USER')
+            password = System.getenv('BINTRAY_KEY')
+        }
+        defaults {
+            publications 'mavenJava'
+        }
+    }
+}
