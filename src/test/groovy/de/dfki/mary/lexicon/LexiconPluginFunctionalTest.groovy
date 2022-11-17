@@ -19,6 +19,7 @@ class LexiconPluginFunctionalTest {
         gradle = GradleRunner.create().withProjectDir(projectDir).withPluginClasspath().forwardOutput()
         def resourceNames = [
                 'build.gradle',
+                'gradle.properties',
                 'allophones.xy.xml',
                 'xy.txt'
         ]
