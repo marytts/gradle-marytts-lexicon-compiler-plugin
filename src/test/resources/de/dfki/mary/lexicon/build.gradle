@@ -28,3 +28,19 @@ task testTestLexicon {
         assert testLexicon.reportFile.exists()
     }
 }
+
+task testProcessResources {
+    dependsOn processResources
+    doLast {
+        def resourceNames = [
+                'allophones.xy.xml',
+                'xy.lts',
+                'xy_lexicon.fst'
+        ]
+        resourceNames.each { resourceName ->
+            def resourceFile = new File(project.sourceSets.main.output.resourcesDir,
+                    "marytts/language/$project.locale/lexicon/$resourceName")
+            assert resourceFile.exists()
+        }
+    }
+}

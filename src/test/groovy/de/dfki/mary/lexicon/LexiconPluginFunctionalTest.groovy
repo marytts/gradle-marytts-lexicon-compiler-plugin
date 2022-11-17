@@ -37,7 +37,8 @@ class LexiconPluginFunctionalTest {
                 ['help', false],
                 ['testPlugin', false],
                 ['compileLexicon', true],
-                ['testLexicon', true]
+                ['testLexicon', true],
+                ['processResources', true]
         ]
     }
 
