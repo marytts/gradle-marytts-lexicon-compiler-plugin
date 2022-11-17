@@ -7,3 +7,8 @@ task testPlugin {
         assert pluginManager.hasPlugin('de.dfki.mary.lexicon-compiler')
     }
 }
+
+compileLexicon {
+    allophonesFile = file('allophones.xy.xml')
+    lexiconFile = file('xy.txt')
+}
