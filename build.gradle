@@ -1,6 +1,5 @@
 plugins {
-    id 'java-gradle-plugin'
-    id 'groovy'
+    id 'groovy-gradle-plugin'
     id 'maven-publish'
     id 'com.gradle.plugin-publish' version '0.9.9'
 }
@@ -15,6 +14,14 @@ gradlePlugin {
             implementationClass = 'de.dfki.mary.lexicon.LexiconPlugin'
         }
     }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
@@ -40,17 +47,10 @@ dependencies {
     implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            artifact sourceJar {
-                classifier 'sources'
-            }
         }
     }
     repositories {
