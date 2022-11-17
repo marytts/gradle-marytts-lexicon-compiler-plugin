@@ -1,7 +1,7 @@
 plugins {
     id 'groovy-gradle-plugin'
     id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.9.9'
+    id 'com.gradle.plugin-publish' version '0.21.0'
 }
 
 group 'de.dfki.mary'
