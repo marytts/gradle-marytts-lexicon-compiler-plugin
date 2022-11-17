@@ -17,8 +17,15 @@ class LexiconPluginFunctionalTest {
         def projectDir = File.createTempDir()
         new File(projectDir, 'settings.gradle').createNewFile()
         gradle = GradleRunner.create().withProjectDir(projectDir).withPluginClasspath().forwardOutput()
-        new File(projectDir, 'build.gradle').withWriter {
-            it << this.class.getResourceAsStream('build.gradle')
+        def resourceNames = [
+                'build.gradle',
+                'allophones.xy.xml',
+                'xy.txt'
+        ]
+        resourceNames.each { resourceName ->
+            new File(projectDir, resourceName).withWriter {
+                it << this.class.getResourceAsStream(resourceName)
+            }
         }
     }
 
