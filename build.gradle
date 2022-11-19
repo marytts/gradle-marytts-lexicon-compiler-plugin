@@ -1,10 +1,12 @@
 plugins {
     id 'com.gradle.plugin-publish' version '1.1.0'
     id 'groovy'
+    id 'signing'
 }
 
 group 'de.dfki.mary'
 version '0.2.0-SNAPSHOT'
+description 'Lexicon compiler plugin for MaryTTS'
 ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 
 pluginBundle {
@@ -69,6 +71,32 @@ test {
 }
 
 publishing {
+    publications {
+        withType(MavenPublication) {
+            pom {
+                name = project.name
+                description = project.description
+                url = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License v3.0 only'
+                        url = 'https://spdx.org/licenses/LGPL-3.0-only.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'psibre'
+                        name = 'Ingmar Steiner'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git//github.com:marytts/gradle-marytts-lexicon-compiler-plugin.git'
+                    developerConnection = 'scm:git:ssh://github.com:marytts/gradle-marytts-lexicon-compiler-plugin.git'
+                    url = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
+                }
+            }
+        }
+    }
     repositories {
         maven {
             name 'OSSRH'
@@ -77,4 +105,8 @@ publishing {
             credentials(PasswordCredentials)
         }
     }
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
 }
