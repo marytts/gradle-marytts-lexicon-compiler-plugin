@@ -1,6 +1,7 @@
 plugins {
     id 'com.gradle.plugin-publish' version '1.1.0'
     id 'groovy'
+    id 'signing'
 }
 
 group 'de.dfki.mary'
@@ -104,4 +105,8 @@ publishing {
             credentials(PasswordCredentials)
         }
     }
+}
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
 }
