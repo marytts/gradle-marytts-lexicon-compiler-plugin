@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'de.dfki.mary'
-version '0.2.0'
+version '0.3.0-SNAPSHOT'
 description 'Lexicon compiler plugin for MaryTTS'
 ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 
