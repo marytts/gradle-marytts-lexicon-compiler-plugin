@@ -1,6 +1,7 @@
 package de.dfki.mary.lexicon
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.*
 
 import marytts.fst.FSTLookup
@@ -8,17 +9,18 @@ import marytts.fst.FSTLookup
 class LexiconTest extends DefaultTask {
 
     @OutputFile
-    File reportFile = project.file("$temporaryDir/report.txt")
+    final RegularFileProperty reportFile = project.objects.fileProperty()
+            .convention(project.layout.buildDirectory.file("report.txt"))
 
     @TaskAction
     void test() {
         // adapted code from TranscriptionTableModel#testFST
-        def fstFile = project.compileLexicon.fstFile
+        def fstFile = project.compileLexicon.fstFile.get().asFile
         def fst = new FSTLookup(fstFile.path)
         def correct = 0
         def failed = 0
-        reportFile.withWriter('UTF-8') { report ->
-            project.compileLexicon.sampaLexiconFile.eachLine('UTF-8') { line ->
+        reportFile.get().asFile.withWriter('UTF-8') { report ->
+            project.compileLexicon.sampaLexiconFile.get().asFile.eachLine('UTF-8') { line ->
                 def (lemma, transcription) = line.split('\\|')
                 def result = fst.lookup(lemma)
                 assert result
@@ -42,7 +44,7 @@ class LexiconTest extends DefaultTask {
             }
             report.println "Testing complete. ${correct + failed} entries ($correct correct, $failed failed)"
         }
-        project.logger.lifecycle reportFile.text.trim()
+        project.logger.lifecycle reportFile.get().asFile.text.trim()
         assert failed == 0
     }
 }

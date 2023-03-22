@@ -1,6 +1,9 @@
 package de.dfki.mary.lexicon
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.MapProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 
 import marytts.fst.AlignerTrainer
@@ -10,35 +13,41 @@ import marytts.tools.newlanguage.LTSTrainer
 
 class LexiconCompile extends DefaultTask {
     @InputFile
-    File allophonesFile = project.file("modules/$project.locale/lexicon/allophones.${project.locale}.xml")
+    final RegularFileProperty allophonesFile = project.objects.fileProperty()
+            .convention(project.layout.projectDirectory.dir("modules/$project.locale/lexicon").file("allophones.${project.locale}.xml"))
 
     @InputFile
-    File lexiconFile = project.file("modules/$project.locale/lexicon/${project.locale}.txt")
+    final RegularFileProperty lexiconFile = project.objects.fileProperty()
+            .convention(project.layout.projectDirectory.dir("modules/$project.locale/lexicon").file("${project.locale}.txt"))
 
     @Input
-    String delimiter = '\\s+'
+    final Property<String> delimiter = project.objects.property(String)
+            .convention('\\s+')
 
     @Input
-    Map<String, String> phoneMapping = [:]
+    final MapProperty<String, String> phoneMapping = project.objects.mapProperty(String, String)
 
     @OutputFile
-    File ltsFile = project.file("$temporaryDir/${project.locale}.lts")
+    final RegularFileProperty ltsFile = project.objects.fileProperty()
+            .convention(project.layout.buildDirectory.file("${project.locale}.lts"))
 
     @OutputFile
-    File fstFile = project.file("$temporaryDir/${project.locale}_lexicon.fst")
+    final RegularFileProperty fstFile = project.objects.fileProperty()
+            .convention(project.layout.buildDirectory.file("${project.locale}_lexicon.fst"))
 
     @Internal
-    File sampaLexiconFile = project.file("$temporaryDir/${project.locale}_lexicon.dict")
+    final RegularFileProperty sampaLexiconFile = project.objects.fileProperty()
+            .convention(project.layout.buildDirectory.file("${project.locale}_lexicon.dict"))
 
     @TaskAction
     void compile() {
         // load allophoneset
-        def allophoneSet = AllophoneSet.getAllophoneSet(allophonesFile.newInputStream(), project.locale)
+        def allophoneSet = AllophoneSet.getAllophoneSet(allophonesFile.get().asFile.newInputStream(), project.locale)
 
         // read transcriptions
         def lexicon = [:]
-        lexiconFile.eachLine('UTF-8') { line ->
-            def fields = line.trim().split(delimiter)
+        lexiconFile.get().asFile.eachLine('UTF-8') { line ->
+            def fields = line.trim().split(delimiter.get())
             if (fields.first().startsWith('#')) {
                 // a comment
             } else if (fields.size() == 1) {
@@ -46,7 +55,7 @@ class LexiconCompile extends DefaultTask {
             } else {
                 def (lemma, transcription) = fields.take(2)
                 // remap phones
-                phoneMapping.each { before, after ->
+                phoneMapping.get().each { before, after ->
                     transcription = transcription.replaceAll ~/$before/, after
                 }
                 if (allophoneSet.checkAllophoneSyntax(transcription)) {
@@ -73,17 +82,17 @@ class LexiconCompile extends DefaultTask {
             ltsTrainer.alignIteration()
         }
         def tree = ltsTrainer.trainTree(100)
-        ltsTrainer.save(tree, ltsFile.path)
+        ltsTrainer.save(tree, ltsFile.get().asFile.path)
 
         project.logger.lifecycle "save transcription"
-        sampaLexiconFile.withWriter('UTF-8') { writer ->
+        sampaLexiconFile.get().asFile.withWriter('UTF-8') { writer ->
             lexicon.each { lemma, transcription ->
                 def transcriptionStr = allophoneSet.splitAllophoneString(transcription)
                 writer.println "$lemma|$transcriptionStr"
             }
         }
         def aligner = new AlignerTrainer(false, true)
-        aligner.readLexicon(sampaLexiconFile.newReader('UTF-8'), '\\|')
+        aligner.readLexicon(sampaLexiconFile.get().asFile.newReader('UTF-8'), '\\|')
         4.times { aligner.alignIteration() }
 
         def trie = new TransducerTrie()
@@ -92,6 +101,6 @@ class LexiconCompile extends DefaultTask {
             trie.add(aligner.getInfoAlignment(it))
         }
         trie.computeMinimization()
-        trie.writeFST(fstFile.newDataOutputStream(), 'UTF-8')
+        trie.writeFST(fstFile.get().asFile.newDataOutputStream(), 'UTF-8')
     }
 }
