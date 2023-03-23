@@ -14,11 +14,9 @@ import marytts.tools.newlanguage.LTSTrainer
 class LexiconCompile extends DefaultTask {
     @InputFile
     final RegularFileProperty allophonesFile = project.objects.fileProperty()
-            .convention(project.layout.projectDirectory.dir("modules/$project.locale/lexicon").file("allophones.${project.locale}.xml"))
 
     @InputFile
     final RegularFileProperty lexiconFile = project.objects.fileProperty()
-            .convention(project.layout.projectDirectory.dir("modules/$project.locale/lexicon").file("${project.locale}.txt"))
 
     @Input
     final Property<String> delimiter = project.objects.property(String)
@@ -29,15 +27,12 @@ class LexiconCompile extends DefaultTask {
 
     @OutputFile
     final RegularFileProperty ltsFile = project.objects.fileProperty()
-            .convention(project.layout.buildDirectory.file("${project.locale}.lts"))
 
     @OutputFile
     final RegularFileProperty fstFile = project.objects.fileProperty()
-            .convention(project.layout.buildDirectory.file("${project.locale}_lexicon.fst"))
 
     @Internal
     final RegularFileProperty sampaLexiconFile = project.objects.fileProperty()
-            .convention(project.layout.buildDirectory.file("${project.locale}_lexicon.dict"))
 
     @TaskAction
     void compile() {

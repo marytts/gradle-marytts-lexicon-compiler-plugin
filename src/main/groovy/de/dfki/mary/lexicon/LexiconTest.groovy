@@ -10,7 +10,6 @@ class LexiconTest extends DefaultTask {
 
     @OutputFile
     final RegularFileProperty reportFile = project.objects.fileProperty()
-            .convention(project.layout.buildDirectory.file("report.txt"))
 
     @TaskAction
     void test() {
