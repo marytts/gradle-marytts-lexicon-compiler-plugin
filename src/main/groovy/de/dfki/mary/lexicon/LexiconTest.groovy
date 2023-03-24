@@ -8,18 +8,23 @@ import marytts.fst.FSTLookup
 
 class LexiconTest extends DefaultTask {
 
+    @InputFile
+    final RegularFileProperty fstFile = project.objects.fileProperty()
+
+    @InputFile
+    final RegularFileProperty sampaLexiconFile = project.objects.fileProperty()
+
     @OutputFile
     final RegularFileProperty reportFile = project.objects.fileProperty()
 
     @TaskAction
     void test() {
         // adapted code from TranscriptionTableModel#testFST
-        def fstFile = project.compileLexicon.fstFile.get().asFile
-        def fst = new FSTLookup(fstFile.path)
+        def fst = new FSTLookup(fstFile.get().asFile.path)
         def correct = 0
         def failed = 0
         reportFile.get().asFile.withWriter('UTF-8') { report ->
-            project.compileLexicon.sampaLexiconFile.get().asFile.eachLine('UTF-8') { line ->
+            sampaLexiconFile.get().asFile.eachLine('UTF-8') { line ->
                 def (lemma, transcription) = line.split('\\|')
                 def result = fst.lookup(lemma)
                 assert result

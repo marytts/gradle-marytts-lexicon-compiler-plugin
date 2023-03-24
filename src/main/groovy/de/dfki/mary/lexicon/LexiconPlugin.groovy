@@ -26,7 +26,8 @@ class LexiconPlugin implements Plugin<Project> {
         }
 
         def testLexiconTask = project.tasks.register('testLexicon', LexiconTest) {
-            inputs.files compileLexiconTask
+            fstFile.set compileLexiconTask.get().fstFile
+            sampaLexiconFile.set compileLexiconTask.get().sampaLexiconFile
             reportFile.set project.layout.buildDirectory.file("report.txt")
         }
 

@@ -31,7 +31,7 @@ class LexiconCompile extends DefaultTask {
     @OutputFile
     final RegularFileProperty fstFile = project.objects.fileProperty()
 
-    @Internal
+    @OutputFile
     final RegularFileProperty sampaLexiconFile = project.objects.fileProperty()
 
     @TaskAction
