@@ -6,6 +6,8 @@ Lexicon compiler plugin for MaryTTS
 
 ### Changed
 
+- Refactored to support Provider API and task configuration avoidance
+- Requires Gradle v5.1 or higher
 - [all changes since v0.2.0]
 
 [v0.2.0] - 2022-11-20
