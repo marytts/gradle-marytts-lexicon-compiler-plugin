@@ -7,21 +7,32 @@ class LexiconPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.pluginManager.apply(JavaPlugin)
 
-        project.task('compileLexicon', type: LexiconCompile)
+        def lexiconSrcDir = project.layout.projectDirectory.dir("modules/$project.locale/lexicon")
 
-        project.processResources {
-            project.afterEvaluate {
-                from project.compileLexicon
-                from project.compileLexicon.allophonesFile
-            }
+        def compileLexiconTask = project.tasks.register('compileLexicon', LexiconCompile) {
+            allophonesFile.set lexiconSrcDir.file("allophones.${project.locale}.xml")
+            lexiconFile.set lexiconSrcDir.file("${project.locale}.txt")
+            ltsFile.set project.layout.buildDirectory.file("${project.locale}.lts")
+            fstFile.set project.layout.buildDirectory.file("${project.locale}_lexicon.fst")
+            sampaLexiconFile.set project.layout.buildDirectory.file("${project.locale}_lexicon.dict")
+        }
+
+        project.tasks.named('processResources').configure {
+            from compileLexiconTask.get().allophonesFile
+            from compileLexiconTask
             eachFile {
                 it.path = "marytts/language/$project.locale/lexicon/$it.name"
             }
         }
 
-        project.task('testLexicon', type: LexiconTest) {
-            inputs.files project.compileLexicon
-            project.test.dependsOn it
+        def testLexiconTask = project.tasks.register('testLexicon', LexiconTest) {
+            fstFile.set compileLexiconTask.get().fstFile
+            sampaLexiconFile.set compileLexiconTask.get().sampaLexiconFile
+            reportFile.set project.layout.buildDirectory.file("report.txt")
+        }
+
+        project.tasks.named('test').configure {
+            dependsOn testLexiconTask
         }
     }
 }

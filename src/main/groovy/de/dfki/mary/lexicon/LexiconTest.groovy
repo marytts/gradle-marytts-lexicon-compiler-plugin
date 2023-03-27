@@ -1,24 +1,30 @@
 package de.dfki.mary.lexicon
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.tasks.*
 
 import marytts.fst.FSTLookup
 
 class LexiconTest extends DefaultTask {
 
+    @InputFile
+    final RegularFileProperty fstFile = project.objects.fileProperty()
+
+    @InputFile
+    final RegularFileProperty sampaLexiconFile = project.objects.fileProperty()
+
     @OutputFile
-    File reportFile = project.file("$temporaryDir/report.txt")
+    final RegularFileProperty reportFile = project.objects.fileProperty()
 
     @TaskAction
     void test() {
         // adapted code from TranscriptionTableModel#testFST
-        def fstFile = project.compileLexicon.fstFile
-        def fst = new FSTLookup(fstFile.path)
+        def fst = new FSTLookup(fstFile.get().asFile.path)
         def correct = 0
         def failed = 0
-        reportFile.withWriter('UTF-8') { report ->
-            project.compileLexicon.sampaLexiconFile.eachLine('UTF-8') { line ->
+        reportFile.get().asFile.withWriter('UTF-8') { report ->
+            sampaLexiconFile.get().asFile.eachLine('UTF-8') { line ->
                 def (lemma, transcription) = line.split('\\|')
                 def result = fst.lookup(lemma)
                 assert result
@@ -42,7 +48,7 @@ class LexiconTest extends DefaultTask {
             }
             report.println "Testing complete. ${correct + failed} entries ($correct correct, $failed failed)"
         }
-        project.logger.lifecycle reportFile.text.trim()
+        project.logger.lifecycle reportFile.get().asFile.text.trim()
         assert failed == 0
     }
 }

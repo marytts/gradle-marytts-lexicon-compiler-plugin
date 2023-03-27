@@ -72,7 +72,7 @@ test {
 
 publishing {
     publications {
-        withType(MavenPublication) {
+        withType(MavenPublication).configureEach {
             pom {
                 name = project.name
                 description = project.description
@@ -107,6 +107,6 @@ publishing {
     }
 }
 
-tasks.withType(Sign) {
+tasks.withType(Sign).configureEach {
     onlyIf { isReleaseVersion }
 }
