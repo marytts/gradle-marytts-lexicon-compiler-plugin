@@ -6,6 +6,13 @@ Lexicon compiler plugin for MaryTTS
 
 ### Changed
 
+- [all changes since v0.3.0]
+
+[v0.3.0] - 2023-03-28
+---------------------
+
+### Changed
+
 - Refactored to support Provider API and task configuration avoidance
 - Requires Gradle v5.1 or higher
 - [all changes since v0.2.0]
@@ -48,7 +55,9 @@ Lexicon compiler plugin for MaryTTS
 ### Initial release
 
 [Unreleased]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/tree/master
-[all changes since v0.2.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.2.0...HEAD
+[all changes since v0.3.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.3.0...HEAD
+[v0.3.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/releases/tag/v0.3.0
+[all changes since v0.2.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/releases/tag/v0.2.0
 [all changes since v0.1.1]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/compare/v0.1.1...HEAD
 [v0.1.1]: https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin/releases/tag/v0.1.1
