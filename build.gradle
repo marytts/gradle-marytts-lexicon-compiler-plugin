@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'de.dfki.mary'
-version '0.3.0-SNAPSHOT'
+version '0.3.0'
 description 'Lexicon compiler plugin for MaryTTS'
 ext {
     url = 'https://github.com/marytts/gradle-marytts-lexicon-compiler-plugin'
