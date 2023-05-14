@@ -6,6 +6,7 @@ Lexicon compiler plugin for MaryTTS
 
 ### Changed
 
+- Upgraded GitHub actions
 - [all changes since v0.3.0]
 
 [v0.3.0] - 2023-03-28
