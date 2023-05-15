@@ -58,7 +58,7 @@ dependencies {
         exclude group: 'gov.nist.math', module: 'Jampack'
     }
     implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
-    testImplementation group: 'org.testng', name: 'testng', version: '7.5'
+    testImplementation group: 'org.testng', name: 'testng', version: '7.5.1'
 }
 
 test {
