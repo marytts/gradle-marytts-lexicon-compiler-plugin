@@ -59,6 +59,11 @@ dependencies {
     }
     implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
     testImplementation group: 'org.testng', name: 'testng', version: '7.5.1'
+    constraints {
+        implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-jre', {
+            because 'transitive v14.0.1 is vulnerable'
+        }
+    }
 }
 
 test {
