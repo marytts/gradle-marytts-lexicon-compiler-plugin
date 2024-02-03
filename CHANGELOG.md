@@ -4,9 +4,15 @@ Lexicon compiler plugin for MaryTTS
 [Unreleased]
 ------------
 
+### Fixed
+
+- Replaced dead repo for JTok dependency
+
 ### Changed
 
 - Upgraded GitHub actions
+- Upgraded dependencies
+- Upgraded plugins
 - [all changes since v0.3.0]
 
 [v0.3.0] - 2023-03-28
