@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'com.gradle.plugin-publish' version '1.2.1'
     id 'groovy'
     id 'signing'
 }
@@ -43,7 +43,7 @@ repositories {
     exclusiveContent {
         forRepository {
             maven {
-                url 'https://mlt.jfrog.io/artifactory/mlt-mvn-releases-local'
+                url 'https://raw.githubusercontent.com/DFKI-MLT/Maven-Repository/main'
             }
         }
         filter {
@@ -58,7 +58,12 @@ dependencies {
         exclude group: 'gov.nist.math', module: 'Jampack'
     }
     implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-dev', version: '3.7.6'
-    testImplementation group: 'org.testng', name: 'testng', version: '7.5'
+    testImplementation group: 'org.testng', name: 'testng', version: '7.5.1'
+    constraints {
+        implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-jre', {
+            because 'transitive v14.0.1 is vulnerable'
+        }
+    }
 }
 
 test {
